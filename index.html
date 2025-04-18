@@ -4,11 +4,27 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <title>PassOP - Password Manager</title>
+    <style>
+      /* Prevent FOUC */
+      .js-loading * {
+        display: none;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background-color: #f3f4f6;
+      }
+    </style>
   </head>
-  <body>
+  <body class="js-loading">
     <div id="root"></div>
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      // Remove loading class once styles are loaded
+      document.body.classList.remove('js-loading');
+    </script>
   </body>
 </html>

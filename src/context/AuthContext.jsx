@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { authService } from '../services/api';
+import { authService } from '../services/localStorage';
 
 const AuthContext = createContext(null);
 
@@ -27,7 +27,11 @@ export const AuthProvider = ({ children }) => {
     try {
       setError(null);
       const response = await authService.login(username, password);
-      const userData = { id: response.userId, username };
+      const userData = { 
+        id: response.userId, 
+        username,
+        masterPassword: password // In a real app, this should be handled more securely
+      };
       setUser(userData);
       localStorage.setItem('user', JSON.stringify(userData));
       return response;
@@ -37,10 +41,10 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (username, password) => {
+  const register = async (username, password, masterPassword) => {
     try {
       setError(null);
-      const response = await authService.register(username, password);
+      const response = await authService.register(username, password, masterPassword);
       return response;
     } catch (error) {
       setError(error.message);
@@ -52,6 +56,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setError(null);
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
   };
 
   const value = {

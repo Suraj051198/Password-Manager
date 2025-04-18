@@ -6,7 +6,7 @@ PassOP is a modern, secure password management solution designed to help you kee
 
 ## 🌟 Features
 
-- **Secure Password Storage**: All passwords are encrypted and stored securely
+- **Local Password Storage**: All passwords are stored securely in your browser's localStorage
 - **User Authentication**: Secure login and registration system
 - **Password Management**: Add, edit, delete, and view stored passwords
 - **Copy to Clipboard**: Quick copy functionality for websites, usernames, and passwords
@@ -43,8 +43,8 @@ PassOP is a modern, secure password management solution designed to help you kee
 - React.js
 - Tailwind CSS
 - React Router
-- Axios
 - React Toastify
+- LocalStorage for data persistence
 
 ### Backend
 - Node.js
@@ -52,63 +52,77 @@ PassOP is a modern, secure password management solution designed to help you kee
 - MongoDB
 - bcrypt
 
-## 🚀 Getting Started
+## 🌍 Live Demo
+
+The application is deployed and accessible online:
+- Frontend: https://password-manager-frontend.onrender.com
+
+## 🚀 Installation and Usage
 
 ### Prerequisites
 - Node.js (v14 or higher)
-- MongoDB
-- npm or yarn
+- npm (v6 or higher)
 
 ### Installation
 
-1. Clone the repository
+1. Clone the repository:
 ```bash
-git clone https://github.com/Suraj051198/Password-Manager.git
-cd Password-Manager
+git clone https://github.com/yourusername/password-manager.git
+cd password-manager
 ```
 
-2. Install dependencies for both frontend and backend
+2. Install dependencies:
 ```bash
-# Install frontend dependencies
-npm install
-
-# Install backend dependencies
-cd Backend
 npm install
 ```
 
-3. Create a .env file in the Backend directory
-```env
-MONGODB_URI=mongodb://localhost:27017/password_manager
-MONGODB_DB_NAME=password_manager
-BCRYPT_SALT_ROUNDS=10
-NODE_ENV=development
-PORT=5000
-```
-
-4. Start the backend server
+3. Start the development server:
 ```bash
-cd Backend
 npm run dev
 ```
 
-5. Start the frontend development server
+4. Build for production:
 ```bash
-# In the root directory
-npm run dev
+npm run build
 ```
 
-6. Access the application
-- Frontend: http://localhost:5174
-- Backend API: http://localhost:5000
+5. Preview the production build:
+```bash
+npm run preview
+```
+
+### Usage
+
+1. Register a new account or login with existing credentials
+2. Add, edit, or delete passwords as needed
+3. Use the copy to clipboard functionality for quick access to credentials
+4. Toggle password visibility as needed
 
 ## 🔒 Security Features
 
-- Password hashing using bcrypt
-- Secure session management
-- Protected API endpoints
+- Local storage for data persistence
+- User authentication with localStorage
 - Input validation and sanitization
 - Error handling and logging
+- Password visibility toggle for security
+
+## 🚢 Deployment
+
+### Frontend Deployment
+The frontend is deployed on Render.com with the following configuration:
+- Build Command: `npm run build`
+- Publish Directory: `dist`
+
+### Backend Deployment
+The backend is deployed on Render.com as a Web Service with the following configuration:
+- Build Command: `npm run render-build`
+- Start Command: `npm start`
+- Environment Variables:
+  - `NODE_ENV=production`
+  - `PORT=10000`
+  - `MONGODB_URI=<your_mongodb_atlas_connection_string>`
+  - `MONGODB_DB_NAME=password_manager`
+  - `BCRYPT_SALT_ROUNDS=10`
 
 ## 🤝 Contributing
 

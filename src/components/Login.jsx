@@ -8,6 +8,7 @@ export default function Login() {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
+    masterPassword: ''
   });
   const { login, register, user } = useAuth();
 
@@ -26,11 +27,16 @@ export default function Login() {
         await login(formData.username, formData.password);
         toast.success('Login successful!');
       } else {
-        await register(formData.username, formData.password);
+        if (!formData.masterPassword) {
+          toast.error('Master password is required for registration');
+          setIsLoading(false);
+          return;
+        }
+        await register(formData.username, formData.password, formData.masterPassword);
         toast.success('Registration successful! Please login.');
         setIsLogin(true);
       }
-      setFormData({ username: '', password: '' });
+      setFormData({ username: '', password: '', masterPassword: '' });
     } catch (error) {
       toast.error(error.message || 'An error occurred');
     } finally {
@@ -72,6 +78,23 @@ export default function Login() {
             disabled={isLoading}
           />
         </div>
+        {!isLogin && (
+          <div>
+            <input
+              type="password"
+              name="masterPassword"
+              value={formData.masterPassword}
+              onChange={handleChange}
+              placeholder="Master Password (for encrypting your passwords)"
+              className="w-full p-2 border border-gray-300 rounded focus:border-green-500 focus:ring-1 focus:ring-green-500"
+              required
+              disabled={isLoading}
+            />
+            <p className="text-sm text-gray-500 mt-1">
+              This password will be used to encrypt your stored passwords. Make sure to remember it!
+            </p>
+          </div>
+        )}
         <button
           type="submit"
           className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600 disabled:bg-green-300 disabled:cursor-not-allowed transition-colors"

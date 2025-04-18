@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../context/AuthContext';
-import { passwordService } from '../services/api';
+import { passwordService } from '../services/localStorage';
 
 export default function Manager() {
   const eyeIconRef = useRef();
@@ -11,6 +11,8 @@ export default function Manager() {
   const [showPass, setShowPass] = useState(false);
   const [editId, setEditId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [masterPassword, setMasterPassword] = useState('');
+  const [showMasterPassword, setShowMasterPassword] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -28,10 +30,15 @@ export default function Manager() {
   const loadPasswords = async () => {
     try {
       setIsLoading(true);
-      const data = await passwordService.getAll(user.id);
+      if (!masterPassword) {
+        setShowMasterPassword(true);
+        return;
+      }
+      const data = await passwordService.getAll(user.id, masterPassword);
       setPasswords(data);
     } catch (error) {
       toast.error(error.message || 'Failed to load passwords');
+      setShowMasterPassword(true);
     } finally {
       setIsLoading(false);
     }
@@ -55,10 +62,10 @@ export default function Manager() {
     try {
       setIsLoading(true);
       if (editId) {
-        await passwordService.update(editId, form.website, form.username, form.password);
+        await passwordService.update(editId, form.website, form.username, form.password, masterPassword);
         toast.success('Password updated!');
       } else {
-        await passwordService.create(user.id, form.website, form.username, form.password);
+        await passwordService.create(user.id, form.website, form.username, form.password, masterPassword);
         toast.success('Password saved!');
       }
       loadPasswords();
@@ -72,8 +79,8 @@ export default function Manager() {
   };
 
   const handleEdit = (item) => {
-    setForm({ website: item.site, username: item.username, password: item.password });
-    setEditId(item._id);
+    setForm({ website: item.website, username: item.username, password: item.password });
+    setEditId(item.id);
   };
 
   const copyToClipboard = (text, label) => {
@@ -96,8 +103,40 @@ export default function Manager() {
     }
   };
 
+  const handleMasterPasswordSubmit = async (e) => {
+    e.preventDefault();
+    setMasterPassword(e.target.masterPassword.value);
+    setShowMasterPassword(false);
+    loadPasswords();
+  };
+
   if (!user) {
     return null;
+  }
+
+  if (showMasterPassword) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full">
+          <h2 className="text-2xl font-bold mb-6 text-center">Enter Master Password</h2>
+          <form onSubmit={handleMasterPasswordSubmit} className="space-y-4">
+            <input
+              type="password"
+              name="masterPassword"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="Enter your master password"
+              required
+            />
+            <button
+              type="submit"
+              className="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600 transition-colors"
+            >
+              Unlock
+            </button>
+          </form>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -207,17 +246,17 @@ export default function Manager() {
               </thead>
               <tbody>
                 {passwords.map((item) => (
-                  <tr key={item._id} className="bg-white border-b hover:bg-gray-50">
+                  <tr key={item.id} className="bg-white border-b hover:bg-gray-50">
                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         <img
-                          onClick={() => copyToClipboard(item.site, 'Website')}
+                          onClick={() => copyToClipboard(item.website, 'Website')}
                           src="/icons8-copy-30.png"
                           alt="copy"
                           className="w-4 h-4 cursor-pointer hover:scale-110 transition-all"
                           title="Copy website"
                         />
-                        {item.site}
+                        {item.website}
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -245,20 +284,18 @@ export default function Manager() {
                       </div>
                     </td>
                     <td className="px-6 py-4 flex items-center gap-2">
-                      <span
-                        onClick={() => deletePassword(item._id)}
-                        className="cursor-pointer"
-                        title="Delete"
-                      >
-                        <img src="/delete.png" alt="delete" className="w-4 h-4 hover:scale-110 transition-all" />
-                      </span>
-                      <span
+                      <button
                         onClick={() => handleEdit(item)}
-                        className="cursor-pointer"
-                        title="Edit"
+                        className="text-blue-600 hover:text-blue-800"
                       >
-                        <img src="/update.png" alt="edit" className="w-4 h-4 hover:scale-110 transition-all" />
-                      </span>
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => deletePassword(item.id)}
+                        className="text-red-600 hover:text-red-800"
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))}
