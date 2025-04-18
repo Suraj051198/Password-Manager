@@ -60,7 +60,7 @@ PassOP is a modern, secure password management solution designed to help you kee
 ## 🌍 Live Demo
 
 The application is deployed and accessible online:
-- Frontend: https://password-manager-frontend.onrender.com
+- Frontend: [https://password-manager-frontend.onrender.com](https://all-password-manager-app.netlify.app/)
 
 ## 🚀 Installation and Usage
 
