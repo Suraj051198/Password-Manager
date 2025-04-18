@@ -18,23 +18,28 @@ PassOP is a modern, secure password management solution designed to help you kee
 ## 📸 Screenshots
 
 ### Login Page
-![Login Page](screenshots/login.png)
+![image](https://github.com/user-attachments/assets/5a894dc2-640b-4074-b506-e84d41228bfe)
+
 *Secure login interface with email and password*
 
 ### Register Page
-![Register Page](screenshots/register.png)
+![image](https://github.com/user-attachments/assets/01fe9d07-cfc9-47c6-82f3-f9bb04db994d)
+
 *User registration with email and password*
 
 ### Dashboard
-![Dashboard](screenshots/dashboard.png)
+![image](https://github.com/user-attachments/assets/6e335b8d-fa9e-43f0-8b26-4357e917d68a)
+
 *Main dashboard showing stored passwords and management interface*
 
 ### About Page
-![About Page](screenshots/about.png)
+![image](https://github.com/user-attachments/assets/1a2d05f5-fd7e-40f9-9710-baf9f2b92fd4)
+
 *Information about PassOP and its features*
 
 ### Contact Page
-![Contact Page](screenshots/contact.png)
+![image](https://github.com/user-attachments/assets/98efd140-3809-449a-98d6-39fc46997129)
+
 *Developer contact information and skills*
 
 ## 🛠️ Technology Stack
