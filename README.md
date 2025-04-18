@@ -1,7 +1,5 @@
 # PassOP - Password Manager
 
-<img src="[public/logo.png](https://all-password-manager-app.netlify.app/)" alt="PassOP Logo" width="200"/>
-
 PassOP is a modern, secure password management solution designed to help you keep track of your digital credentials safely and efficiently. Built with the latest web technologies, PassOP provides a user-friendly interface while maintaining high security standards.
 
 ## 🌟 Features
